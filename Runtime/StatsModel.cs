@@ -4,13 +4,6 @@ using UnityEngine;
 
 namespace StatSystem
 {
-    public enum StatType
-    {
-        MaxHealth,
-        Damage,
-        Speed
-    }
-    
     public class StatsModel
     {
         /// <summary> Triggers when any stat in this model changes. (Type, OldValue, NewValue) </summary>
