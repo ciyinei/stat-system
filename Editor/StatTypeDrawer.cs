@@ -11,11 +11,10 @@ public class StatTypeDrawer : PropertyDrawer
         EditorGUI.BeginProperty(position, label, property);
 
         SerializedProperty valueProp = property.FindPropertyRelative("_value");
-        SerializedProperty nameProp  = property.FindPropertyRelative("_name");
 
-        if (valueProp == null || nameProp == null)
+        if (valueProp == null)
         {
-            EditorGUI.LabelField(position, label.text, "Serialize fields not found.");
+            EditorGUI.LabelField(position, label.text, "Serialized field '_value' not found.");
             EditorGUI.EndProperty();
             return;
         }
@@ -29,14 +28,13 @@ public class StatTypeDrawer : PropertyDrawer
             return;
         }
 
-        string[] displayNames = System.Array.ConvertAll(allTypes, t => t.ToString());
+        string[] displayNames = System.Array.ConvertAll(allTypes, t => t.Name);
         int currentIndex = System.Array.FindIndex(allTypes, t => t.Value == valueProp.intValue);
         if (currentIndex < 0) currentIndex = 0;
 
         int selectedIndex = EditorGUI.Popup(position, label.text, currentIndex, displayNames);
 
-        valueProp.intValue  = allTypes[selectedIndex].Value;
-        nameProp.stringValue = allTypes[selectedIndex].Name;
+        valueProp.intValue = allTypes[selectedIndex].Value;
 
         EditorGUI.EndProperty();
     }
