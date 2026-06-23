@@ -61,7 +61,7 @@ namespace StatSystem
         }
 
         /// <summary> Removes all modifiers that originated from the given source. </summary>
-        public void RemoveModifier(object source)
+        public void RemoveModifiers(object source)
         {
             float oldValue = Value;
             int removedCount = modifiers.RemoveAll(m => m.Source == source);
