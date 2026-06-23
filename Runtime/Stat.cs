@@ -8,7 +8,7 @@ namespace StatSystem
     public class Stat
     {
         [SerializeField] private float baseValue;
-        [HideInInspector] [SerializeField] private List<StatModifier> modifiers = new();
+        [HideInInspector][SerializeField] private List<StatModifier> modifiers = new();
 
         private float currentValue;
 
@@ -52,6 +52,21 @@ namespace StatSystem
         {
             float oldValue = Value;
             if (modifiers.Remove(modifier))
+            {
+                isDirty = true;
+                float newValue = Value;
+                if (!Mathf.Approximately(oldValue, newValue))
+                    OnValueChanged?.Invoke(oldValue, newValue);
+            }
+        }
+
+        /// <summary> Removes all modifiers that originated from the given source. </summary>
+        public void RemoveModifier(object source)
+        {
+            float oldValue = Value;
+            int removedCount = modifiers.RemoveAll(m => m.Source == source);
+
+            if (removedCount > 0)
             {
                 isDirty = true;
                 float newValue = Value;
